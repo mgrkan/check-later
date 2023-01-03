@@ -1,45 +1,51 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import urlParser from "js-video-url-parser/lib/base";
+  import "js-video-url-parser/lib/provider/youtube";
+  let url;
+  let img;
+  $: img
+  function UrlToImage(){
+    let retreival = urlParser.parse(url)
+    let id = retreival.id
+    img = "https://i.ytimg.com/vi/" + id + "/hq720.jpg"
+    console.log(img)
+  }
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+  <div class="top-bar" >
+    <h2 style="margin-left: 20%;" >Check Later</h2>
   </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
+  <input type="text" bind:value={url} />
+  <button on:click={UrlToImage} >submit</button>
+  <div class="list">
+    <div class="card" >
+      <img src={img} alt="thumbnail" style="border-radius: 5px;" />
+    </div>
   </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
 </main>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
+  .top-bar {
+    display: flex;
+    height: 100px;
+    width: 100%;
+    background-color: coral;
+    align-items: center;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+  .list {
+    margin-top: 50px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+  .card {
+    display: flex;
+    width: 60%;
+    height: 90px;
+    background-color: black;
+    border-radius: 15px;
   }
 </style>
