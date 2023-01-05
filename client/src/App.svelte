@@ -14,6 +14,7 @@
     let img = "https://i.ytimg.com/vi/" + id + "/hq720.jpg"
     return img
   }
+  let CheckList = [];
   function AddLink(){
     if(urlParser.parse(link)) {
       CheckList = [...CheckList, {url: link, id: generateRandomId()}];
@@ -21,7 +22,9 @@
     link = "";
     
   }
-  let CheckList = [];
+  function RemoveLink(item){
+    CheckList = CheckList.filter(i => i.id != item.id)
+  }
 
 </script>
 
@@ -37,6 +40,7 @@
       <img src={UrlToImage(item.url)} alt="thumbnail"/>
       <div style="align-items: center; display:flex; justify-content: center;" >
         <a href={item.url}>{item.url}</a>
+        <button on:click={()=>RemoveLink(item)} style="margin-left: 20px; border-radius: 50px; height: 40px; width: 40px;" >X</button>
       </div>
     </div>
     {/each}
