@@ -2,6 +2,11 @@
   import urlParser from "js-video-url-parser/lib/base";
   import "js-video-url-parser/lib/provider/youtube";
   import { each } from "svelte/internal";
+
+  function generateRandomId(){
+		return Math.random().toString(16).slice(2)
+  }
+
   let link;
   function UrlToImage(url){
     let retreival = urlParser.parse(url)
@@ -10,10 +15,13 @@
     return img
   }
   function AddLink(){
-    CheckList = [...CheckList, link]
+    if(urlParser.parse(link)) {
+      CheckList = [...CheckList, {url: link, id: generateRandomId()}];
+    }
     link = "";
+    
   }
-  let CheckList = ["https://www.youtube.com/watch?v=j7YPAHnvrEQ"];
+  let CheckList = [];
 
 </script>
 
@@ -24,11 +32,11 @@
     <button on:click={AddLink} class="add2" >➕</button>
   </div>
   <div class="list">
-    {#each CheckList as item}
+    {#each CheckList as item (item.id)}
     <div class="card" >
-      <img src={UrlToImage(item)} alt="thumbnail"/>
+      <img src={UrlToImage(item.url)} alt="thumbnail"/>
       <div style="align-items: center; display:flex; justify-content: center;" >
-        <a href={item}>{item}</a>
+        <a href={item.url}>{item.url}</a>
       </div>
     </div>
     {/each}
@@ -50,6 +58,7 @@
   }
   .list {
     margin-top: 150px;
+    margin-bottom: 75px;
     display: grid;
     justify-content: center;
     align-items: center;
@@ -64,8 +73,8 @@
   }
   .add {
     visibility: hidden;
-    height: 75px;
-    width: 75px;
+    height: 55px;
+    width: 55px;
     border-radius: 50px;
     align-items: center;
     justify-content: center;
@@ -89,12 +98,13 @@
     margin-left: 50px; width: 30%; height: 45%; border: none; border-radius: 20px;
   }
   .input1 {
-    width: 55%; height: 75px; border: none; border-radius: 35px;
+    width: 60%; height: 55px; border: none; border-radius: 35px;
     visibility: hidden;
     position: fixed;
     bottom: 30px;
-    right: 115px;
+    right: 95px;
     display: flex;
+    font-size: 25px;
   }
   .add2 {
     height: 45%;
