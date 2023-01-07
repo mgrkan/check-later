@@ -14,10 +14,22 @@
     let img = "https://i.ytimg.com/vi/" + id + "/hq720.jpg"
     return img
   }
-  let CheckList = [];
-  function AddLink(){
+  let CheckList = [{url: "https://www.youtube.com/watch?v=xhdV3xWmxgQ", id: generateRandomId()}];
+
+  async function AddLink(){
     if(urlParser.parse(link)) {
-      CheckList = [...CheckList, {url: link, id: generateRandomId()}];
+      let body = {url: link, id: generateRandomId()}
+      CheckList = [...CheckList, body];
+      const response = await fetch("/add_link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+
+      })
+      console.log(response)
+      return response.json()
     }
     link = "";
     
