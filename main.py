@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request
+from flask import Flask, send_from_directory, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 
@@ -7,7 +7,6 @@ DB_NAME = "database.db"
 class List(db.Model):
     id = db.Column(db.String, primary_key=True)
     url = db.Column(db.String)
-
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = f'sqlite:///{DB_NAME}'
 db.init_app(app)
@@ -27,7 +26,26 @@ def add():
     new_link = List(url=link["url"], id=link["id"])
     db.session.add(new_link)
     db.session.commit()
-    return request.get_json()
+    return link
+
+@app.route("/delete_link", methods = ["POST"])
+def delete():
+    card_id = request.get_data()
+    card_id = card_id.decode("utf-8")
+    print(card_id)
+    link = List.query.get(card_id)
+    db.session.delete(link)
+    db.session.commit()
+    return card_id
+
+@app.route("/load", methods = ["GET", "POST"])
+def load():
+    db_dict = List.query.all()
+    db_json = []
+    for i in db_dict:
+        db_json.append({"url": i.url, "id": i.id})
+    print(db_json)
+    return jsonify(db_json)
 
 if __name__ == "__main__":
     with app.app_context():

@@ -2,7 +2,16 @@
   import urlParser from "js-video-url-parser/lib/base";
   import "js-video-url-parser/lib/provider/youtube";
   import { each } from "svelte/internal";
-
+  import { onMount } from "svelte/internal";
+  
+  let CheckList = [];
+  
+  onMount(async() =>  {
+    const res = await fetch("/load")
+    CheckList = await res.json();
+    console.log(CheckList)
+  })
+  
   function generateRandomId(){
 		return Math.random().toString(16).slice(2)
   }
@@ -14,7 +23,7 @@
     let img = "https://i.ytimg.com/vi/" + id + "/hq720.jpg"
     return img
   }
-  let CheckList = [{url: "https://www.youtube.com/watch?v=xhdV3xWmxgQ", id: generateRandomId()}];
+  
 
   async function AddLink(){
     
@@ -37,8 +46,19 @@
     
     
   }
-  function RemoveLink(item){
+  async function RemoveLink(item){
     CheckList = CheckList.filter(i => i.id != item.id)
+    const response = await fetch("/delete_link", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain"
+        },
+        body: item.id
+
+      })
+    
+    console.log(response)
+    return response.text()
   }
 
 </script>
