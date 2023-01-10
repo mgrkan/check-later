@@ -67,7 +67,7 @@
   <div class="top-bar" >
     <h2 style="margin-left: 20%;" >Check Later</h2>
     <input type="text" class="input2" bind:value={link} />
-    <button on:click={AddLink} class="add2" >➕</button>
+    <button on:click={AddLink} class="add2" >＋</button>
   </div>
   <div class="list">
     {#each CheckList as item (item.id)}
@@ -81,7 +81,7 @@
     {/each}
   </div>
   <input type="text" class="input1" bind:value={link} />
-  <button on:click={AddLink} class="add" >➕</button>
+  <button on:click={AddLink} class="add" >＋</button>
 </main>
 
 <style>
@@ -97,7 +97,7 @@
   }
   .list {
     margin-top: 150px;
-    margin-bottom: 75px;
+    margin-bottom: 175px;
     display: grid;
     justify-content: center;
     align-items: center;
@@ -120,8 +120,8 @@
     display: flex;
     position: fixed;
     background-color: rgb(255, 15, 15);
-    bottom: 30px;
-    right: 30px;
+    bottom: 20px;
+    right: 20px;
     font-size: 50px;
   }
   img {
@@ -137,13 +137,13 @@
     margin-left: 50px; width: 30%; height: 45%; border: none; border-radius: 20px;
   }
   .input1 {
-    width: 60%; height: 55px; border: none; border-radius: 35px;
+    width: 75%; height: 55px; border: none; border-radius: 35px;
     visibility: hidden;
     position: fixed;
-    bottom: 30px;
-    right: 95px;
+    bottom: 20px;
+    right: 80px;
     display: flex;
-    font-size: 25px;
+    font-size: 21px;
   }
   .add2 {
     height: 45%;
@@ -170,6 +170,8 @@
     a {
       margin-left: 0;
       margin-top: 20px;
+      max-width: 200px;
+      text-overflow: ellipsis;
     }
     .add {
       visibility: visible;
